@@ -1,0 +1,54 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and role information.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID from Firebase Auth." },
+        "email": { "type": "string", "format": "email", "description": "User's email address." },
+        "displayName": { "type": "string", "description": "User's display name." },
+        "role": { "type": "string", "enum": ["admin", "user"], "description": "User's role in the system." }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Inventory product details.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique product ID." },
+        "name": { "type": "string", "description": "Name of the product." },
+        "description": { "type": "string", "description": "Detailed description of the product." },
+        "category": { "type": "string", "description": "Product category." },
+        "price": { "type": "number", "description": "Unit price of the product." },
+        "quantity": { "type": "integer", "description": "Current stock quantity." },
+        "sku": { "type": "string", "description": "Stock Keeping Unit identifier." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the product was added." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "When the product was last updated." },
+        "createdBy": { "type": "string", "description": "UID of the user who created the product." }
+      },
+      "required": ["name", "quantity", "price", "sku"]
+    },
+    "ActivityLog": {
+      "title": "ActivityLog",
+      "description": "Log of inventory changes.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique log ID." },
+        "userId": { "type": "string", "description": "UID of the user who performed the action." },
+        "userName": { "type": "string", "description": "Name of the user who performed the action." },
+        "action": { "type": "string", "description": "Description of the action (e.g., 'Added Product', 'Updated Quantity')." },
+        "productId": { "type": "string", "description": "ID of the product involved." },
+        "productName": { "type": "string", "description": "Name of the product involved." },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the action occurred." }
+      },
+      "required": ["userId", "action", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": { "schema": "User", "description": "User profiles." },
+    "/products/{productId}": { "schema": "Product", "description": "Inventory items." },
+    "/activityLogs/{logId}": { "schema": "ActivityLog", "description": "Audit trail of changes." }
+  }
+}
